@@ -1,11 +1,9 @@
+
 function updateText(quote, author) {
   $("#quote").text("\" " + quote + " \" ");
   $("#author").text("--" + author);
 
-}
-
-
-
+};
 
 function ajaxCall(){
   $.ajax({
@@ -17,13 +15,13 @@ function ajaxCall(){
   .done(function(res) {
     console.log(res)
     updateText(res.quote,res.author);
-
+    $('#quoteSection').hide().fadeIn(1500)
     console.log("You used Jquery to make the GET Request!")
   })
-
+  
   .fail(() => {
    alert("Something went wrong!")
-  })
+  });
 };
 
 function axio(){
@@ -31,8 +29,9 @@ function axio(){
   axios.get("https://talaikis.com/api/quotes/random/")
     .then(function (response) {
   updateText(response.data.quote,response.data.author)
-  })
-}
+  $('#quoteSection').hide().fadeIn(1500)
+  });
+};
 
 function xhrRequest() {
   console.log("hello")
@@ -44,6 +43,7 @@ function xhrRequest() {
         let returnedData = JSON.parse(XHR.responseText)
         updateText(returnedData.quote,returnedData.author)
         console.log("You made a successful call with XHR")
+        $('#quoteSection').hide().fadeIn(1500)
       } else {
         console.log("Shit there was a problem")
       }
@@ -51,14 +51,19 @@ function xhrRequest() {
   }
   XHR.open("GET","https://talaikis.com/api/quotes/random/");
   XHR.send();
-}
+};
+  $("#tweet").click(function(){
+    const quote = $("#quote").text()
+    const author = $("#author").text()
+     $("#tweet").attr("href","https://twitter.com/intent/tweet?text=" + quote + author)     
+  });
 
-  $("#axios,#jquery,#xhrReq").click(function(){
-     $('#quoteSection').hide().fadeIn(1500)
-   // stop(true).addClass("fadeInLeft").one('animationend webkitAnimationEnd oAnimationEnd').removeAttr("style")
-  // var el = document.getElementById('quoteSection');
-  // el.style.animation = 'none';
-  // el.offsetWidth; /* trigger reflow */
-  // el.style.animation = null; 
-  })
-updateText('When the going gets weird, the weird turn pro','Hunter S. Thompson');
+
+window.onload = function() {
+  $('#quoteSection').hide().fadeIn(1500)
+  updateText("When the going gets weird, the weird turn pro.", "Hunter S. Thompson")
+};
+
+
+
+
