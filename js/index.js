@@ -8,13 +8,13 @@ function updateText(quote, author) {
 function ajaxCall(){
   $.ajax({
     method: "GET",
-    dataType: 'json',
-    url:"https://talaikis.com/api/quotes/random/"
+    dataType: 'jsonp',
+    url:"https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=?"
   })
 
   .done(function(res) {
     console.log(res)
-    updateText(res.quote,res.author);
+    updateText(res.quoteText,res.quoteAuthor);
     $('#quoteSection').hide().fadeIn(1500)
     console.log("You used Jquery to make the GET Request!")
   })
@@ -26,10 +26,12 @@ function ajaxCall(){
 
 function axio(){
   console.log("You used Axios to make this request!")
-  axios.get("https://talaikis.com/api/quotes/random/")
+  axios.get("https://random-math-quote-api.herokuapp.com/")
     .then(function (response) {
+    console.log(response)
   updateText(response.data.quote,response.data.author)
   $('#quoteSection').hide().fadeIn(1500)
+    
   });
 };
 
@@ -49,7 +51,7 @@ function xhrRequest() {
       }
     }
   }
-  XHR.open("GET","https://talaikis.com/api/quotes/random/");
+  XHR.open("GET","https://random-math-quote-api.herokuapp.com/");
   XHR.send();
 };
   $("#tweet").click(function(){
